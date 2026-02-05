@@ -326,4 +326,6 @@ def run_snowflake_query(statement: str) -> str:
         logger.error(f"Snowflake query error: {e}")
         return f"Query Error: {e}"
     except Exception as e:
-        logger.error(f"Unexpected error executing 
+        logger.error(f"Unexpected error executing Snowflake query: {e}")
+        return f"Error: {e}"
+        
