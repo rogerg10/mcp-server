@@ -1,0 +1,33 @@
+# Configuration file for Strands RAG Agent
+# Copy this file to config.yaml and fill in your actual values
+
+snowflake:
+  # Snowflake account identifier (from your URL, before .snowflakecomputing.com)
+  account: PLACEHOLDER
+
+  # Snowflake user that owns/has access to RGARCIA.INTAKE_2025_26 and the MCP server
+  user: USERNAME
+
+  # PAT token – REQUIRED: Get from Snowflake UI > My Profile > Sessions
+  # Token format: eyJ... (JWT token)
+  pat_token: "DUMMY VALUE"
+
+  # Biology admissions database/schema where MCP server is defined
+  database: RGARCIA
+  schema: INTAKE_2025_26
+
+  # Warehouse to use for SQL queries
+  warehouse: WH_GENERAL 
+
+mcp:
+  # MCP server endpoint (uses same Snowflake account)
+  # Name from: CREATE OR REPLACE MCP SERVER MCP__BIOLOGY_ADMISSIONS ...
+  server_name: MCP__BIOLOGY_ADMISSIONS
+
+  # Note: MCP uses the same auth token, database, and schema as Snowflake above
+
+aws:
+  # AWS credentials are loaded from ~/.aws/credentials by default
+  place_index_name: agentcore-index
+
+
