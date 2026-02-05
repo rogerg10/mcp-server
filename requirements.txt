@@ -1,0 +1,7 @@
+bedrock-agentcore
+boto3
+strands-agents
+strands-agents-tools
+strands-agents[anthropic]
+bedrock-agentcore-starter-toolkit
+snowflake-connector-python
