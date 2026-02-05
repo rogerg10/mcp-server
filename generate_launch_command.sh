@@ -75,7 +75,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Build the agentcore launch command with environment variables
-CMD="agentcore launch --script $PYTHON_FILE"
+CMD="agentcore launch
 
 while IFS='=' read -r key value; do
   if [ -n "$value" ]; then
