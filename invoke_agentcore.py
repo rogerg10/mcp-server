@@ -121,10 +121,9 @@ def stream_response(prompt, agent_arn=None, session_id=None):
     else:
         default_agent_arn = agent_arn
 
-    default_session_id = session_id or "generic-session-001"
-
-    agent_runtime_arn = default_agent_arn
-    runtime_session_id = default_session_id
+    default_session_id = "generic-session-abc123xyz789mnjikg"
+    agent_runtime_arn = agent_arn or default_agent_arn
+    runtime_session_id = session_id or default_session_id        
 
     payload = json.dumps({"prompt": prompt}).encode()
 
