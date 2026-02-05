@@ -8,6 +8,7 @@ import logging
 import requests
 from pathlib import Path
 from typing import Dict, Any, Optional
+import os
 
 import yaml
 from strands import Agent, tool
@@ -145,13 +146,40 @@ class MCPClient:
 # Snowflake / MCP configuration pulled from config.yaml
 # -----------------------------------------------------------------------------
 
-SNOWFLAKE_ACCOUNT = get_config("account", "snowflake")
-SNOWFLAKE_USER = get_config("user", "snowflake")
-SNOWFLAKE_PAT_TOKEN = get_config("pat_token", "snowflake")
-SNOWFLAKE_DATABASE = get_config("database", "snowflake")
-SNOWFLAKE_SCHEMA = get_config("schema", "snowflake")
-SNOWFLAKE_WAREHOUSE = get_config("warehouse", "snowflake")
-MCP_SERVER_NAME = get_config("server_name", "mcp")
+SNOWFLAKE_ACCOUNT = (
+    os.getenv("SNOWFLAKE_ACCOUNT")
+    or get_config("account", "snowflake")
+)
+
+SNOWFLAKE_USER = (
+    os.getenv("SNOWFLAKE_USER")
+    or get_config("user", "snowflake")
+)
+
+SNOWFLAKE_PAT_TOKEN = (
+    os.getenv("SNOWFLAKE_PAT_TOKEN")
+    or get_config("pat_token", "snowflake")
+)
+
+SNOWFLAKE_DATABASE = (
+    os.getenv("SNOWFLAKE_DATABASE")
+    or get_config("database", "snowflake")
+)
+
+SNOWFLAKE_SCHEMA = (
+    os.getenv("SNOWFLAKE_SCHEMA")
+    or get_config("schema", "snowflake")
+)
+
+SNOWFLAKE_WAREHOUSE = (
+    os.getenv("SNOWFLAKE_WAREHOUSE")
+    or get_config("warehouse", "snowflake")
+)
+
+MCP_SERVER_NAME = (
+    os.getenv("MCP_SERVER_NAME")
+    or get_config("server_name", "mcp")
+)
 
 AWS_PLACE_INDEX_NAME = get_config("place_index_name", "aws")
 
