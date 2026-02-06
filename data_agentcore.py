@@ -12,7 +12,7 @@ import os
 import sys
 import yaml
 from strands import Agent, tool
-from strands.models.anthropic import AnthropicModel
+# from strands.models.anthropic import AnthropicModel
 from strands.models.bedrock import BedrockModel
 from strands_tools import current_time, http_request, use_aws, retrieve
 import snowflake.connector
