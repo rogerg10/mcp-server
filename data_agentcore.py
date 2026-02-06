@@ -13,6 +13,7 @@ import sys
 import yaml
 from strands import Agent, tool
 from strands.models.anthropic import AnthropicModel
+from strands.models.bedrock import BedrockModel
 from strands_tools import current_time, http_request, use_aws, retrieve
 import snowflake.connector
 
@@ -339,8 +340,15 @@ def run_snowflake_query(statement: str) -> str:
 # Agent definition and AgentCore entrypoint
 # -----------------------------------------------------------------------------
 
+# Configure the Bedrock model (Amazon Nova 2 Lite, serverless in ap-southeast-2)
+model = BedrockModel(
+    model_id="amazon.nova-2-lite-v1:0",
+    region="ap-southeast-2",
+)
+
 # Create the Strands agent that will run inside Bedrock AgentCore
 agent = Agent(
+    model=model,  # We are using an explicit model
     tools=[
         current_time,
         http_request,
@@ -367,6 +375,8 @@ first try to use the MCP tools if they expose the needed logic; otherwise fall b
 to direct SQL via run_snowflake_query.
 """,
 )
+
+
 
 @app.entrypoint
 def invoke(payload: dict) -> dict:
