@@ -386,6 +386,7 @@ def invoke(payload: dict) -> dict:
     Expects a JSON payload like: {"prompt": "<user question>"}.
     """
     prompt = payload.get("prompt", "Hello, how can I help you?")
+    logger.info(f"Using model: {agent.model.model_id}")    
     response = agent(prompt)
     return {"result": response.message}
 
