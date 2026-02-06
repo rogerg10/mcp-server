@@ -9,7 +9,7 @@ import requests
 from pathlib import Path
 from typing import Dict, Any, Optional
 import os
-
+import sys
 import yaml
 from strands import Agent, tool
 from strands.models.anthropic import AnthropicModel
@@ -22,6 +22,11 @@ app = BedrockAgentCoreApp()
 # Configure basic logging for the application
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+stdout_handler.setFormatter(formatter)
+logger.addHandler(stdout_handler)
 
 # -----------------------------------------------------------------------------
 # Configuration loading from config.yaml with safe defaults
