@@ -329,3 +329,50 @@ def run_snowflake_query(statement: str) -> str:
         logger.error(f"Unexpected error executing Snowflake query: {e}")
         return f"Error: {e}"
         
+
+# -----------------------------------------------------------------------------
+# Agent definition and AgentCore entrypoint
+# -----------------------------------------------------------------------------
+
+# Create the Strands agent that will run inside Bedrock AgentCore
+agent = Agent(
+    tools=[
+        current_time,
+        http_request,
+        use_aws,
+        retrieve,
+        geocode_address,
+        call_mcp_data_tool,
+        run_snowflake_query,
+    ],
+    system_prompt=f"""
+You are an AI assistant for admissions data.
+
+You can:
+- Call Snowflake MCP tools via the call_mcp_data_tool tool to work with
+  data exposed by the MCP server {SNOWFLAKE_DATABASE}.{SNOWFLAKE_SCHEMA}.{MCP_SERVER_NAME}.
+- Run direct SQL against Snowflake using the run_snowflake_query tool for
+  ad-hoc queries on the {SNOWFLAKE_DATABASE}.{SNOWFLAKE_SCHEMA} database.
+- Use current_time for time-related reasoning.
+- Use http_request and use_aws for HTTP and AWS-related operations.
+- Use retrieve for general knowledge when needed.
+
+For questions about applicants (e.g., domestic applicants for a specific program),
+first try to use the MCP tools if they expose the needed logic; otherwise fall back
+to direct SQL via run_snowflake_query.
+""",
+)
+
+@app.entrypoint
+def invoke(payload: dict) -> dict:
+    """
+    Bedrock AgentCore entrypoint.
+
+    Expects a JSON payload like: {"prompt": "<user question>"}.
+    """
+    prompt = payload.get("prompt", "Hello, how can I help you?")
+    response = agent(prompt)
+    return {"result": response.message}
+
+if __name__ == "__main__":
+    app.run()
